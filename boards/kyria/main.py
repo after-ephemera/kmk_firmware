@@ -7,8 +7,8 @@ from kmk.extensions.rgb import RGB, AnimationModes
 from kmk.hid import HIDModes
 from kmk.keys import KC
 from kmk.modules.encoder import EncoderHandler
+from kmk.modules.holdtap import HoldTap
 from kmk.modules.layers import Layers
-from kmk.modules.modtap import ModTap
 from kmk.modules.split import Split, SplitType
 from kmk.modules.tapdance import TapDance
 
@@ -18,7 +18,7 @@ keyboard.debug_enabled = True
 encoder_handler = EncoderHandler()
 encoder_handler.pins = ((keyboard.encoder_pin_0, keyboard.encoder_pin_1, None, False),)
 
-keyboard.modules = [Layers(), ModTap(), TapDance()]
+keyboard.modules = [Layers(), HoldTap(), TapDance()]
 keyboard.extensions = [MediaKeys(), International()]
 
 split = Split(split_type=SplitType.UART, use_pio=True)
@@ -36,18 +36,37 @@ keyboard.extensions.append(rgb_ext)
 oled_ext = Oled(
     OledData(
         entries=[
-            OledData.oled_text_entry(text='Kyria v1.4\nKB2040', line_spacing=0.75, inverted=True, x=0, y=0),
-            OledData.oled_text_entry(text='americ', x=128, y=0, x_anchor=1.0),
-            OledData.oled_text_entry(text='anfootball', x=128, y=10, x_anchor=1.0),
-            OledData.oled_text_entry(text='Layer: ', x=0, y=32, y_anchor=1.0),
-            OledData.oled_text_entry(text='BASE', x=40, y=32, y_anchor=1.0, layer=0),
-            OledData.oled_text_entry(text='LOWER', x=40, y=32, y_anchor=1.0, layer=3),
-            OledData.oled_text_entry(text='RAISE', x=40, y=32, y_anchor=1.0, layer=4),
-            OledData.oled_text_entry(text='ADJUST', x=40, y=32, y_anchor=1.0, layer=6),
+            OledData.oled_text_entry(text='Kyria v1.4', x=128, y=0, x_anchor='R'),
+            OledData.oled_text_entry(text='KB2040', x=128, y=10, x_anchor='R'),
+            OledData.oled_text_entry(text='left', x=128, y=20, x_anchor='R', side='L'),
+            OledData.oled_text_entry(text='right', x=128, y=20, x_anchor='R', side='R'),
+            OledData.oled_text_entry(text='Layer: ', x=0, y=32, y_anchor='B'),
+            OledData.oled_text_entry(text='BASE', x=40, y=32, y_anchor='B', layer=0),
+            OledData.oled_text_entry(text='LOWER', x=40, y=32, y_anchor='B', layer=3),
+            OledData.oled_text_entry(text='RAISE', x=40, y=32, y_anchor='B', layer=4),
+            OledData.oled_text_entry(text='ADJUST', x=40, y=32, y_anchor='B', layer=6),
+            OledData.oled_text_entry(text='0 1 2 3 4', x=0, y=0),
+            OledData.oled_text_entry(text='5 6 7 8 9', x=0, y=10),
+            OledData.oled_text_entry(text='0', x=0, y=-1, inverted=True, layer=0),
+            OledData.oled_text_entry(text='1', x=12, y=-1, inverted=True, layer=1),
+            OledData.oled_text_entry(text='2', x=24, y=-1, inverted=True, layer=2),
+            OledData.oled_text_entry(text='3', x=36, y=-1, inverted=True, layer=3),
+            OledData.oled_text_entry(text='4', x=48, y=-1, inverted=True, layer=4),
+            OledData.oled_text_entry(text='5', x=0, y=10, inverted=True, layer=5),
+            OledData.oled_text_entry(text='6', x=12, y=10, inverted=True, layer=6),
+            OledData.oled_text_entry(text='7', x=24, y=10, inverted=True, layer=7),
+            OledData.oled_text_entry(text='8', x=36, y=10, inverted=True, layer=8),
+            OledData.oled_text_entry(text='9', x=48, y=10, inverted=True, layer=9),
         ]
     ),
     height=64,
     flip=True,
+    dim_time=20,
+    off_time=60,
+    powersave_dim_time=5,
+    powersave_off_time=15,
+    brightness=1,
+    split=split,
 )
 
 keyboard.extensions.append(oled_ext)
